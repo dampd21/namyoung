@@ -1,13 +1,14 @@
 """
 네이버 플레이스 순위 추적 및 대표키워드 수집
 - Selenium으로 브라우저 세션/쿠키 획득 후 GraphQL API 호출
-- 키워드별 순위 추적
+- 키워드별 순위 추적 (최대 300위)
 - 업체 상세 정보 (리뷰수, 저장수 등)
 - 대표키워드 및 검색량 조회
 """
 
 import subprocess
 import sys
+
 
 def ensure_packages():
     required = ['selenium', 'requests']
@@ -17,6 +18,7 @@ def ensure_packages():
         except ImportError:
             print(f"[INSTALL] {pkg} 설치 중...", flush=True)
             subprocess.check_call([sys.executable, '-m', 'pip', 'install', pkg])
+
 
 ensure_packages()
 
@@ -121,10 +123,10 @@ class NaverPlaceTracker:
             })
 
             print("[BROWSER] 네이버 플레이스 페이지 로딩...", flush=True)
-            self.driver.get("https://m.place.naver.com/restaurant/list?query=%EC%A7%AC%EB%BD%95")
+            self.driver.get("https://m.place.naver.com/restaurant/list?query=%EB%A7%9B%EC%A7%91")
             time.sleep(3)
 
-            self.driver.get("https://m.place.naver.com/restaurant/1542530224/home")
+            self.driver.get("https://m.place.naver.com/restaurant/1951454277/home")
             time.sleep(3)
             print(f"[BROWSER] 페이지 제목: {self.driver.title}", flush=True)
 
@@ -158,7 +160,7 @@ class NaverPlaceTracker:
                 pass
             self.driver = None
 
-    def _execute_in_browser(self, keyword, max_results=100):
+    def _execute_in_browser(self, keyword, max_results=300):
         if not self.driver:
             if not self._init_browser():
                 return None
@@ -255,33 +257,146 @@ class NaverPlaceTracker:
             print(f"  [BROWSER-EXEC] 실행 실패: {e}", flush=True)
             return None
 
-    def search_keyword_ranking(self, keyword, max_results=100):
+    def _execute_in_browser_paged(self, keyword, start=1, display=100):
+        if not self.driver:
+            if not self._init_browser():
+                return None
+
+        print(f"  [BROWSER-EXEC] 페이지 조회: {keyword} (start={start}, display={display})", flush=True)
+
+        try:
+            current_url = self.driver.current_url or ""
+            if "place.naver.com" not in current_url:
+                import urllib.parse
+                encoded = urllib.parse.quote(keyword)
+                self.driver.get(f"https://m.place.naver.com/restaurant/list?query={encoded}")
+                time.sleep(3)
+        except Exception:
+            import urllib.parse
+            encoded = urllib.parse.quote(keyword)
+            self.driver.get(f"https://m.place.naver.com/restaurant/list?query={encoded}")
+            time.sleep(3)
+
+        js_code = """
+        var callback = arguments[arguments.length - 1];
+        var searchQuery = arguments[0];
+        var startPos = arguments[1];
+        var displayCount = arguments[2];
+
+        fetch('https://api.place.naver.com/graphql', {
+            method: 'POST',
+            headers: {
+                'accept': '*/*',
+                'accept-language': 'ko',
+                'content-type': 'application/json',
+                'origin': 'https://m.place.naver.com',
+                'referer': 'https://m.place.naver.com/'
+            },
+            body: JSON.stringify([{
+                "operationName": "getRestaurantList",
+                "variables": {
+                    "restaurantListInput": {
+                        "query": searchQuery,
+                        "x": "126.9783882",
+                        "y": "37.5666103",
+                        "start": startPos,
+                        "display": displayCount,
+                        "isNmap": false,
+                        "deviceType": "pc"
+                    }
+                },
+                "query": "query getRestaurantList($restaurantListInput: RestaurantListInput) { restaurants: restaurantList(input: $restaurantListInput) { items { id name category roadAddress phone totalReviewCount blogCafeReviewCount visitorReviewCount visitorReviewScore saveCount } total } }"
+            }])
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) { callback(JSON.stringify(data)); })
+        .catch(function(e) { callback(JSON.stringify({"error": e.message})); });
+        """
+
+        try:
+            self.driver.set_script_timeout(30)
+            result_str = self.driver.execute_async_script(js_code, keyword, start, display)
+
+            if not result_str:
+                print(f"  [BROWSER-EXEC] 빈 응답", flush=True)
+                return None
+
+            data = json.loads(result_str)
+
+            if isinstance(data, dict) and "error" in data:
+                print(f"  [BROWSER-EXEC] JS 에러: {data['error']}", flush=True)
+                return None
+
+            if isinstance(data, list) and len(data) > 0:
+                items = data[0].get('data', {}).get('restaurants', {}).get('items', [])
+                total = data[0].get('data', {}).get('restaurants', {}).get('total', 0)
+
+                print(f"  [BROWSER-EXEC] {len(items)}개 결과 (start={start}, 총 {total}개)", flush=True)
+                return {
+                    "success": True,
+                    "total": total,
+                    "items": items,
+                    "method": "browser_exec"
+                }
+
+            print(f"  [BROWSER-EXEC] 예상치 못한 응답 형식", flush=True)
+            return None
+
+        except Exception as e:
+            print(f"  [BROWSER-EXEC] 실행 실패: {e}", flush=True)
+            return None
+
+    def search_keyword_ranking(self, keyword, max_results=300):
         result = self._execute_in_browser(keyword, max_results)
         if result and result.get("success"):
             return result
         return {"success": False, "total": 0, "items": []}
 
-    def find_store_rank(self, keyword, place_id):
-        result = self.search_keyword_ranking(keyword, max_results=100)
+    def find_store_rank(self, keyword, place_id, max_rank=300):
+        all_items = []
+        total = 0
+        method = "unknown"
+        page_size = 100
 
-        if not result["success"]:
-            return None
+        for start in range(1, max_rank + 1, page_size):
+            display = min(page_size, max_rank - start + 1)
+            result = self._execute_in_browser_paged(keyword, start, display)
+            time.sleep(1)
 
-        for idx, item in enumerate(result["items"], 1):
+            if not result or not result.get("success"):
+                break
+
+            items = result.get("items", [])
+            total = result.get("total", 0)
+            method = result.get("method", "unknown")
+            all_items.extend(items)
+
+            if len(items) < display:
+                break
+
+            found = False
+            for idx, item in enumerate(all_items, 1):
+                if str(item.get("id", "")) == str(place_id):
+                    found = True
+                    break
+            if found:
+                break
+
+        for idx, item in enumerate(all_items, 1):
             item_id = str(item.get("id", ""))
             if item_id == str(place_id):
                 return {
                     "rank": idx,
-                    "total": result["total"],
+                    "total": total,
                     "item": item,
-                    "method": result.get("method", "unknown")
+                    "method": method
                 }
 
         return {
             "rank": None,
-            "total": result["total"],
+            "total": total,
             "item": None,
-            "method": result.get("method", "unknown")
+            "method": method
         }
 
     def get_review_stats(self, place_id):
@@ -567,7 +682,7 @@ def run_daily_tracking():
                     else:
                         history[0] = today_data
 
-                    rank_str = f"{rank}위" if rank else "100위 밖"
+                    rank_str = f"{rank}위" if rank else "300위 밖"
                     print(f"    -> {rank_str} ({method})", flush=True)
                     success_count += 1
                 else:
