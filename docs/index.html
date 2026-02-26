@@ -1058,7 +1058,7 @@ body {
 
     function formatRankBadge(rank) {
         if (rank === null || rank === undefined) {
-            return '<span class="rank-badge rank-none">100+</span>';
+            return '<span class="rank-badge rank-none">300+</span>';
         }
         var cls = "rank-other";
         if (rank <= 3) cls = "rank-top3";
@@ -1689,7 +1689,7 @@ body {
                 valueEl.textContent = "-";
             }
 
-            bar.title = h.date + ": " + (rank ? rank + "위" : "100+");
+            bar.title = h.date + ": " + (rank ? rank + "위" : "300+");
 
             var labelEl = document.createElement("div");
             labelEl.className = "chart-bar-label";
