@@ -1,11 +1,74 @@
 {
-  "generated_at": "2026-04-01T03:31:18.793470",
+  "generated_at": "2026-04-02T02:56:18.177292",
   "tracking_history": {
     "난로연 남영점|남영역맛집": {
       "store_name": "난로연 남영점",
       "place_id": "1951454277",
       "keyword": "남영역맛집",
       "history": [
+        {
+          "date": "2026-04-02",
+          "weekday": "목",
+          "rank": 298,
+          "blog_reviews": "394",
+          "visitor_reviews": "1,543",
+          "save_count": "15,000+",
+          "score": null,
+          "method": "browser_exec",
+          "review_stats": {
+            "total": 1543,
+            "avg_rating": 0,
+            "themes": [
+              {
+                "code": "taste",
+                "label": "맛",
+                "count": 1186
+              },
+              {
+                "code": "total",
+                "label": "만족도",
+                "count": 877
+              },
+              {
+                "code": "service",
+                "label": "서비스",
+                "count": 510
+              },
+              {
+                "code": "mood",
+                "label": "분위기",
+                "count": 288
+              },
+              {
+                "code": "purpose",
+                "label": "목적",
+                "count": 162
+              }
+            ],
+            "voted_keywords": [
+              {
+                "displayName": "음식이 맛있어요",
+                "count": 1437
+              },
+              {
+                "displayName": "고기 질이 좋아요",
+                "count": 1189
+              },
+              {
+                "displayName": "친절해요",
+                "count": 659
+              },
+              {
+                "displayName": "인테리어가 멋져요",
+                "count": 555
+              },
+              {
+                "displayName": "특별한 메뉴가 있어요",
+                "count": 439
+              }
+            ]
+          }
+        },
         {
           "date": "2026-04-01",
           "weekday": "수",
