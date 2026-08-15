@@ -1,11 +1,21 @@
 {
-  "generated_at": "2026-08-14T02:30:16.377377",
+  "generated_at": "2026-08-15T01:40:34.279457",
   "tracking_history": {
     "난로연 남영점|남영역맛집": {
       "store_name": "난로연 남영점",
       "place_id": "1951454277",
       "keyword": "남영역맛집",
       "history": [
+        {
+          "date": "2026-08-15",
+          "weekday": "토",
+          "rank": null,
+          "blog_reviews": "0",
+          "visitor_reviews": "0",
+          "save_count": "0",
+          "score": 0,
+          "method": "unknown"
+        },
         {
           "date": "2026-08-14",
           "weekday": "금",
@@ -3648,69 +3658,6 @@
               {
                 "displayName": "특별한 메뉴가 있어요",
                 "count": 484
-              }
-            ]
-          }
-        },
-        {
-          "date": "2026-05-17",
-          "weekday": "일",
-          "rank": null,
-          "blog_reviews": "0",
-          "visitor_reviews": "0",
-          "save_count": "0",
-          "score": 0,
-          "method": "browser_exec",
-          "review_stats": {
-            "total": 1690,
-            "avg_rating": 0,
-            "themes": [
-              {
-                "code": "taste",
-                "label": "맛",
-                "count": 1294
-              },
-              {
-                "code": "total",
-                "label": "만족도",
-                "count": 950
-              },
-              {
-                "code": "service",
-                "label": "서비스",
-                "count": 540
-              },
-              {
-                "code": "mood",
-                "label": "분위기",
-                "count": 316
-              },
-              {
-                "code": "purpose",
-                "label": "목적",
-                "count": 176
-              }
-            ],
-            "voted_keywords": [
-              {
-                "displayName": "음식이 맛있어요",
-                "count": 1575
-              },
-              {
-                "displayName": "고기 질이 좋아요",
-                "count": 1309
-              },
-              {
-                "displayName": "친절해요",
-                "count": 712
-              },
-              {
-                "displayName": "인테리어가 멋져요",
-                "count": 609
-              },
-              {
-                "displayName": "특별한 메뉴가 있어요",
-                "count": 476
               }
             ]
           }
