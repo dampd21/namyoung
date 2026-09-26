@@ -1,11 +1,74 @@
 {
-  "generated_at": "2026-09-25T04:35:05.986666",
+  "generated_at": "2026-09-26T04:39:10.145505",
   "tracking_history": {
     "난로연 남영점|남영역맛집": {
       "store_name": "난로연 남영점",
       "place_id": "1951454277",
       "keyword": "남영역맛집",
       "history": [
+        {
+          "date": "2026-09-26",
+          "weekday": "토",
+          "rank": null,
+          "blog_reviews": "0",
+          "visitor_reviews": "0",
+          "save_count": "0",
+          "score": 0,
+          "method": "browser_exec",
+          "review_stats": {
+            "total": 2585,
+            "avg_rating": 4.91,
+            "themes": [
+              {
+                "code": "taste",
+                "label": "맛",
+                "count": 1976
+              },
+              {
+                "code": "total",
+                "label": "만족도",
+                "count": 1451
+              },
+              {
+                "code": "service",
+                "label": "서비스",
+                "count": 785
+              },
+              {
+                "code": "mood",
+                "label": "분위기",
+                "count": 437
+              },
+              {
+                "code": "purpose",
+                "label": "목적",
+                "count": 230
+              }
+            ],
+            "voted_keywords": [
+              {
+                "displayName": "음식이 맛있어요",
+                "count": 2411
+              },
+              {
+                "displayName": "고기 질이 좋아요",
+                "count": 2052
+              },
+              {
+                "displayName": "친절해요",
+                "count": 1062
+              },
+              {
+                "displayName": "인테리어가 멋져요",
+                "count": 889
+              },
+              {
+                "displayName": "특별한 메뉴가 있어요",
+                "count": 743
+              }
+            ]
+          }
+        },
         {
           "date": "2026-09-25",
           "weekday": "금",
@@ -1902,69 +1965,6 @@
           "save_count": "0",
           "score": 0,
           "method": "unknown"
-        },
-        {
-          "date": "2026-06-27",
-          "weekday": "토",
-          "rank": null,
-          "blog_reviews": "0",
-          "visitor_reviews": "0",
-          "save_count": "0",
-          "score": 0,
-          "method": "browser_exec",
-          "review_stats": {
-            "total": 1970,
-            "avg_rating": 0,
-            "themes": [
-              {
-                "code": "taste",
-                "label": "맛",
-                "count": 1497
-              },
-              {
-                "code": "total",
-                "label": "만족도",
-                "count": 1112
-              },
-              {
-                "code": "service",
-                "label": "서비스",
-                "count": 604
-              },
-              {
-                "code": "mood",
-                "label": "분위기",
-                "count": 369
-              },
-              {
-                "code": "purpose",
-                "label": "목적",
-                "count": 189
-              }
-            ],
-            "voted_keywords": [
-              {
-                "displayName": "음식이 맛있어요",
-                "count": 1825
-              },
-              {
-                "displayName": "고기 질이 좋아요",
-                "count": 1528
-              },
-              {
-                "displayName": "친절해요",
-                "count": 808
-              },
-              {
-                "displayName": "인테리어가 멋져요",
-                "count": 692
-              },
-              {
-                "displayName": "특별한 메뉴가 있어요",
-                "count": 562
-              }
-            ]
-          }
         }
       ]
     }
