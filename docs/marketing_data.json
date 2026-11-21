@@ -1,11 +1,21 @@
 {
-  "generated_at": "2026-11-20T06:52:26.556635",
+  "generated_at": "2026-11-21T06:47:14.664850",
   "tracking_history": {
     "난로연 남영점|남영역맛집": {
       "store_name": "난로연 남영점",
       "place_id": "1951454277",
       "keyword": "남영역맛집",
       "history": [
+        {
+          "date": "2026-11-21",
+          "weekday": "토",
+          "rank": null,
+          "blog_reviews": "0",
+          "visitor_reviews": "0",
+          "save_count": "0",
+          "score": 0,
+          "method": "unknown"
+        },
         {
           "date": "2026-11-20",
           "weekday": "금",
@@ -1737,16 +1747,6 @@
         {
           "date": "2026-08-23",
           "weekday": "일",
-          "rank": null,
-          "blog_reviews": "0",
-          "visitor_reviews": "0",
-          "save_count": "0",
-          "score": 0,
-          "method": "unknown"
-        },
-        {
-          "date": "2026-08-22",
-          "weekday": "토",
           "rank": null,
           "blog_reviews": "0",
           "visitor_reviews": "0",
